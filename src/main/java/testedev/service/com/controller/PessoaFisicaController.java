@@ -3,16 +3,15 @@ package testedev.service.com.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +22,12 @@ import testedev.service.com.entity.PessoaFisica;
 import testedev.service.com.repository.PessoaFisicaRepository;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/")
-public class PessoaFisicaController {
+public  class PessoaFisicaController {
 	
+    public static Logger logger = LogManager.getLogger(PessoaFisicaController.class);
+
 	@Autowired
 	private PessoaFisicaRepository pessoaFisica;
 	
@@ -35,8 +37,12 @@ public class PessoaFisicaController {
 		return (List<PessoaFisica>) pessoaFisica.findAll();
 	}
 	
-	@PostMapping("/pessoa")
-	public PessoaFisica createPessoaFisica(@RequestBody PessoaFisica pessoa) {		
+    @RequestMapping(value = "/pessoas", method = RequestMethod.POST)
+	public PessoaFisica createPessoaFisica(@RequestBody PessoaFisica pessoa) {	
+    	System.out.println("Entrou aki");
+    	
+    	System.out.println("Valor telefone: "+pessoa.getTelefone());
+    	
 		return pessoaFisica.save(pessoa);
 	}
 	
@@ -52,7 +58,7 @@ public class PessoaFisicaController {
 		return ResponseEntity.ok(lista);
 	}
     
-    @PutMapping("/pessoa/{id}")
+    @PutMapping("/pessoas/{id}")
     public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable Integer id, @RequestBody PessoaFisica personDetails) {
     	  
     	PessoaFisica pessoa=pessoaFisica.findById(id).orElseThrow(()
@@ -70,7 +76,7 @@ public class PessoaFisicaController {
     }
     
     @DeleteMapping("/pessoa/{id}")
-	public ResponseEntity<Map<String, Boolean>> deletePessoaFisica(@PathVariable Integer id){
+	public ResponseEntity<Map<String, Boolean>> deletePessoaFisica(@PathVariable("id") Integer id){
 		
 		PessoaFisica pessoa=pessoaFisica.findById(id).orElseThrow(()
     			-> new ResourceNotFoundException("PessoaFisica not exist with id :" + id) );

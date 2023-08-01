@@ -1,7 +1,7 @@
 package testedev.service.com.entity;
 
 import java.util.Objects;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import jakarta.persistence.GenerationType;
 @Entity
 public class PessoaFisica {
 	
-	@jakarta.persistence.Id
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer Id;
 	
@@ -21,7 +21,7 @@ public class PessoaFisica {
 	private String cpf;
 	
 	@Column(name="telefone")
-	private int telefone;
+	private String telefone;
 	
 	@Column(name="email")
 	private String email;
@@ -30,7 +30,7 @@ public class PessoaFisica {
 		
 	}
 	
-	public PessoaFisica(Integer id, String nome, String cpf, int telefone, String email) {
+	public PessoaFisica(Integer id, String nome, String cpf, String telefone, String email) {
 		Id = id;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -61,11 +61,11 @@ public class PessoaFisica {
 		this.cpf = cpf;
 	}
 	
-	public int getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
 	
-	public void setTelefone(int telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 	
