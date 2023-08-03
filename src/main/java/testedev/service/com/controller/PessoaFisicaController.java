@@ -3,6 +3,8 @@ package testedev.service.com.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,6 @@ public  class PessoaFisicaController {
 	
     @RequestMapping(value = "/pessoas", method = RequestMethod.POST)
 	public PessoaFisica createPessoaFisica(@RequestBody PessoaFisica pessoa) {	
-    	System.out.println("Entrou aki");
     	
     	System.out.println("Valor telefone: "+pessoa.getTelefone());
     	
@@ -47,16 +48,11 @@ public  class PessoaFisicaController {
 	}
 	
     @RequestMapping(value = "/pessoas/{nome}", method = RequestMethod.GET)
-	public ResponseEntity<List<PessoaFisica>> getPessoaFisicaByName(@PathVariable String nome) {
-    	
-    	List<PessoaFisica> lista =pessoaFisica.findByNome(nome);
-    	
-    	if (lista.isEmpty()) {
-    		return ResponseEntity.notFound().build();
-    	}
-    	
-		return ResponseEntity.ok(lista);
-	}
+	public List<PessoaFisica> getPessoaFisicaByName(@PathVariable("nome") String nome) {
+ 
+
+		return (List<PessoaFisica>) pessoaFisica.findByNome(nome);
+    }
     
     @PutMapping("/pessoas/{id}")
     public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable Integer id, @RequestBody PessoaFisica personDetails) {
