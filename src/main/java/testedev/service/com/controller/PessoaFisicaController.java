@@ -3,6 +3,8 @@ package testedev.service.com.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+ 
 import testedev.service.com.entity.PessoaFisica;
 import testedev.service.com.repository.PessoaFisicaRepository;
 
@@ -39,24 +41,19 @@ public  class PessoaFisicaController {
 	
     @RequestMapping(value = "/pessoas", method = RequestMethod.POST)
 	public PessoaFisica createPessoaFisica(@RequestBody PessoaFisica pessoa) {	
-    	System.out.println("Entrou aki");
     	
     	System.out.println("Valor telefone: "+pessoa.getTelefone());
     	
 		return pessoaFisica.save(pessoa);
 	}
 	
-    @RequestMapping(value = "/pessoas/{nome}", method = RequestMethod.GET)
-	public ResponseEntity<List<PessoaFisica>> getPessoaFisicaByName(@PathVariable String nome) {
-    	
-    	List<PessoaFisica> lista =pessoaFisica.findByNome(nome);
-    	
-    	if (lista.isEmpty()) {
-    		return ResponseEntity.notFound().build();
-    	}
-    	
-		return ResponseEntity.ok(lista);
-	}
+    @RequestMapping(value = "/pessoas/{id}", method = RequestMethod.GET)
+	public PessoaFisica getPessoaFisicaByName(@PathVariable("id") Integer id) {
+ 
+
+		return pessoaFisica.findById(id).orElseThrow(() -> new ResourceNotFoundException("Não existe Pessoa com esse Id"));
+				
+    }
     
     @PutMapping("/pessoas/{id}")
     public ResponseEntity<PessoaFisica> updatePessoaFisica(@PathVariable Integer id, @RequestBody PessoaFisica personDetails) {
