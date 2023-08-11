@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+ 
 import testedev.service.com.entity.PessoaFisica;
 import testedev.service.com.repository.PessoaFisicaRepository;
 
@@ -47,11 +47,12 @@ public  class PessoaFisicaController {
 		return pessoaFisica.save(pessoa);
 	}
 	
-    @RequestMapping(value = "/pessoas/{nome}", method = RequestMethod.GET)
-	public List<PessoaFisica> getPessoaFisicaByName(@PathVariable("nome") String nome) {
+    @RequestMapping(value = "/pessoas/{id}", method = RequestMethod.GET)
+	public PessoaFisica getPessoaFisicaByName(@PathVariable("id") Integer id) {
  
 
-		return (List<PessoaFisica>) pessoaFisica.findByNome(nome);
+		return pessoaFisica.findById(id).orElseThrow(() -> new ResourceNotFoundException("Não existe Pessoa com esse Id"));
+				
     }
     
     @PutMapping("/pessoas/{id}")
