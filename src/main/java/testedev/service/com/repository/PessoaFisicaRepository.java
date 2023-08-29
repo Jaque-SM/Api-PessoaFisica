@@ -16,5 +16,8 @@ public interface PessoaFisicaRepository extends  CrudRepository<PessoaFisica, In
 	
     @Query("SELECT p FROM PessoaFisica p WHERE p.nome = :nome")
 	List<PessoaFisica> findByNome(@Param("nome") String nome);
+    
+    @Query("SELECT p FROM PessoaFisica p WHERE p.cpf = :cpf")
+    List<PessoaFisica> findByCpf(@Param("cpf") String cpf);
 
 }
